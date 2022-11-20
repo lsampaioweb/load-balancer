@@ -25,7 +25,7 @@ module "proxmox-ubuntu-22-04" {
   for_each = var.vm_object
 
   target_node = "kvm-0${random_integer.target_node[each.key].result}"
-  name        = "load-balancer-${each.key}"
+  name        = "stg-load-balancer-${each.key}"
   vcpus       = each.value.vcpus
 
   description = "Traefik VM as Load Balancer."
