@@ -3,7 +3,6 @@ Project with Ansible scripts to create an Ubuntu template on Proxmox from a clon
 
 Run the command in the terminal:
 ```bash
-  ansible-playbook template.yml
   ansible-playbook provision.yml
 ```
 
