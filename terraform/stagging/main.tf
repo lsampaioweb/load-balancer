@@ -1,15 +1,12 @@
 variable "vm_object" {
   type = map(object({
-    name  = string
     vcpus = optional(number)
   }))
   default = {
-    "manager" = {
-      name  = "manager-01"
+    "manager-01" = {
       vcpus = 3
     },
-    "worker" = {
-      name  = "worker-01"
+    "worker-01" = {
       vcpus = 3
     }
   }
@@ -28,9 +25,9 @@ module "proxmox-ubuntu-22-04" {
   for_each    = var.vm_object
   
   target_node = "kvm-0${random_integer.target_node[each.key].result}"
-  name        = "load-balancer-${each.value.name}"
+  name        = "load-balancer-${each.key}"
   vcpus       = each.value.vcpus
 
   description = "Traefik VM as Load Balancer."
-  pool        = ""
+  pool        = "Stagging"
 }
