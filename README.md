@@ -2,8 +2,6 @@
 Description XXX.
 
 # Scripts:
-[Packer](packer/ "Packer")
-
 [Terraform](terraform/ "Terraform")
 
 [Ansible](ansible/ "Ansible")
