@@ -23,7 +23,7 @@ resource "random_integer" "target_node" {
 
 module "proxmox-ubuntu-22-04" {
   source = "../modules/proxmox-ubuntu-22-04"
-  clone  = "ubuntu-22-04-server-standard"
+  clone  = "ubuntu-22-04-server-std-docker"
 
   for_each = var.vm_object
 
