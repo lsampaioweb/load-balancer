@@ -1,13 +1,16 @@
 variable "vm_object" {
   type = map(object({
-    vcpus = optional(number)
+    onboot = optional(bool)
+    vcpus  = optional(number)
   }))
   default = {
-    "manager-01" = {
-      vcpus = 3
+    "01" = {
+      onboot = true
+      vcpus  = 3
     },
-    "worker-01" = {
-      vcpus = 3
+    "02" = {
+      onboot = true
+      vcpus  = 3
     }
   }
 }
@@ -26,6 +29,7 @@ module "proxmox-ubuntu-22-04" {
 
   target_node = "kvm-0${random_integer.target_node[each.key].result}"
   name        = "stg-load-balancer-${each.key}"
+  onboot      = each.value.onboot
   vcpus       = each.value.vcpus
 
   description = "Traefik VM as Load Balancer."

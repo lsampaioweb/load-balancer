@@ -1,9 +1,6 @@
-[JumpServer]
-localhost ansible_connection=local
+#[target]
+#node_01 ansible_host=<ip> hostname=stg-load-balancer-01
+#node_02 ansible_host=<ip> hostname=stg-load-balancer-02
 
-[target]
-template ansible_host=<ip>
-
-[target:vars]
-ansible_user=usr_ansible
-ansible_password=<password>
+#[target:vars]
+#password_id=ubuntu-22-04-server-standard

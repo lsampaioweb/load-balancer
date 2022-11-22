@@ -1,6 +1,7 @@
 ---
 - name: "Preparing the virtual machine with some settings"
-  hosts: "JumpServer"
+  hosts: "target"
+  become: true
 
   roles:
     - "provision"
