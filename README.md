@@ -1,5 +1,5 @@
-# {project_name}
-Description XXX.
+# load-balancer
+Project that will create the VMs that will work as the Load Balancer of the HomeLab.
 
 # Scripts:
 [Terraform](terraform/ "Terraform")
