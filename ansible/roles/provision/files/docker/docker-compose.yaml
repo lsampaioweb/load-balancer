@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  traefik:
+    image: "traefik:v2.9"
+    networks: 
+       - "loadbalancer"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      # Traefik configuration.
+      - "/opt/docker/loadbalancer.yaml:/etc/traefik/traefik.yml"
+      # Dynamic configuration file of each site.
+      - "/opt/docker/sites/:/etc/traefik/sites/"
+      # Certificate files.
+      - "/opt/docker/certificates/:/etc/traefik/certificates/"
+
+networks:
+  loadbalancer:
+    external: true

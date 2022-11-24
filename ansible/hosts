@@ -1,6 +1,6 @@
-#[target]
-#node_01 ansible_host=<ip> hostname=stg-load-balancer-01
-#node_02 ansible_host=<ip> hostname=stg-load-balancer-02
+[target]
+node_01 ansible_host=192.168.0.21 hostname=stg-load-balancer-01
+node_02 ansible_host=192.168.0.171 hostname=stg-load-balancer-02
 
-#[target:vars]
-#password_id=ubuntu-22-04-server-standard
+[target:vars]
+password_id=ubuntu-22-04-server-std-docker

@@ -7,3 +7,7 @@ root_password_id: "{{ password_id }}"
 
 # The password of the root user used in VM.
 ansible_password: "{{ lookup('pipe', 'secret-tool lookup password ' + root_password_id) }}"
+
+docker_path: "/opt/docker/"
+certificates_src_path: "/opt/certificates/loadbalancer.homelab/"
+certificates_dest_path: "{{ docker_path }}certificates/"

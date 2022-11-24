@@ -1,0 +1,64 @@
+http:
+
+  serversTransports:
+    mytransport:
+      certificates:
+        - certFile: "foo.crt"
+          keyFile: "bar.crt"
+
+  # Add the router
+  routers:
+    router0:
+      entryPoints:
+      - web
+      middlewares:
+      - my-basic-auth
+      service: service-foo
+      rule: Path(`/foo`)
+
+  # Add the middleware
+  middlewares:
+    my-basic-auth:
+      redirectScheme:
+        scheme: https
+        permanent: true
+      inFlightReq:
+        amount: 10
+      rateLimit:
+        average: 100
+        burst: 50        
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        sslRedirect: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+      compress: {}
+      basicAuth:
+        users:
+        - test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/
+        - test2:$apr1$d9hr9HBB$4HxwgUir3HP4EsggP/QNo0
+        usersFile: etc/traefik/.htpasswd
+
+  # Add the service
+  services:
+    service-foo:
+      loadBalancer:
+        servers:
+        - url: http://foo/
+        - url: http://bar/
+        sticky:
+          cookie:
+            name: my_sticky_cookie_name
+            secure: true
+            httpOnly: true
+        healthCheck:
+          scheme: http
+          path: /health
+          port: 8080
+          interval: "10s"
+          timeout: "3s"
+        passHostHeader: true
+

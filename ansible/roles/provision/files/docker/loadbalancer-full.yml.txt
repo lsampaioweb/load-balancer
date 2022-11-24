@@ -1,0 +1,54 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+  insecure: true
+
+providers:
+  file:
+    # filename: "sites/traefik.yml"
+    directory: "sites"
+    watch: true
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+# log:
+#   level: ERROR
+
+# accessLog: {}
+
+# metrics:
+#   prometheus:
+#     buckets:
+#       - 0.1
+#       - 0.3
+#       - 1.2
+#       - 5.0
+
+# ping: {}
+
+# defaultEntryPoints = ["http", "https"]
+# logLevel = "ERROR"
+
+# [entryPoints]
+#   [entryPoints.http]
+#   address = ":80"
+#     [entryPoints.http.redirect]
+#     entryPoint = "https"
+#   [entryPoints.https]
+#   address = ":443"
+#     [entryPoints.https.tls]
+#       [[entryPoints.https.tls.certificates]]
+#       certFile = "/certs/aprendendo.com.br.crt"
+#       keyFile = "/certs/aprendendo.com.br.key"
+
+# [ping]
+#   # Name of the related entry point
+#   #   Optional - Default: "traefik"
+#   entryPoint = "https"

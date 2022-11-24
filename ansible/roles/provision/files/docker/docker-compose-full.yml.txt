@@ -1,0 +1,90 @@
+version: "3.9"
+
+services:
+  traefik:
+    image: "traefik:v2.9"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - ./traefik.yml:/etc/traefik/traefik.yml
+    environment:
+      - "DO_AUTH_TOKEN=<Your Super Secret Digital Ocean Token Goes here>"
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck"]
+      interval: 10s
+      timeout: 2s
+      retries: 3
+      start_period: 5s
+
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.dashboard.rule=Host(`<YOUR_DOMAIN_HERE>`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+        - "traefik.http.routers.dashboard.service=api@internal"
+        - "traefik.http.routers.dashboard.entrypoints=websecure"
+        - traefik.http.routers.dashboard.tls=true
+        - traefik.http.routers.dashboard.tls.certresolver=myresolver
+        - "traefik.http.routers.dashboard.middlewares=auth"
+        - "traefik.http.middlewares.auth.basicauth.users=traefik:$$apr1$$cIc2751d$$HejlZ4u/fLP1JrVO6sJO1/"
+        - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+
+# version: "3.7"
+
+# services:
+#   traefik:
+#     image: registry.bibliotecas.aprendendo.com.br/traefik:alpine
+#     container_name: traefik
+#     restart: always
+#     volumes:
+#       # So Traefik can listen to the Docker events.
+#       - /var/run/docker.sock:/var/run/docker.sock
+
+#       - ${ETC_LOCALTIME}:/etc/localtime:ro
+#       - ./init/traefik.toml:/traefik.toml
+#       - ../certificados/:/certs/
+#     networks:
+#       - net-proxy
+#     ports:
+#       - 80:80
+#       - 443:443
+#     labels:
+#       - traefik.enable=true
+#       - traefik.frontend.rule=Host:localhost
+
+#       - traefik.frontend.passHostHeader=true
+#       # Sets that only allow HTTPS requests.
+#       - traefik.frontend.headers.SSLRedirect=true
+#       # Adds the STS header to non-SSL requests.
+#       - traefik.frontend.headers.forceSTSHeader=true
+#       # Sets the max-age of the STS header.
+#       - traefik.frontend.headers.STSSeconds=315360000
+#       # Adds the IncludeSubdomains section of the STS header.
+#       - traefik.frontend.headers.STSIncludeSubdomains=true
+#       # Adds the preload flag to the STS header.
+#       - traefik.frontend.headers.STSPreload=true
+#       # Adds the X-XSS-Protection header with the value `1; mode=block`.
+#       - traefik.frontend.headers.browserXSSFilter=true
+#       # Adds the X-Content-Type-Options header with the value `nosniff`.
+#       - traefik.frontend.headers.contentTypeNosniff=true
+#       - traefik.backend=traefik
+#       - traefik.port=8080
+#     command:
+#       # Enables the web UI and tells Traefik to listen to docker.
+#       #- "--logLevel=ERROR"
+#       - "--api"
+#       - "--docker"
+#       - "--docker.domain=aprendendo.com.br"
+#       - "--docker.exposedbydefault=false"
+#     # healthcheck:
+#     #   # Traefik alpine não tem curl.
+#     #   test: wget --tries=1 --spider --no-check-certificate https://localhost:443/ping || exit 1
+#     #   start_period: 5s #default: 0s
+#     #   interval: 1m #default: 30s
+#     #   timeout: 5s #default: 30s
+#     #   retries: 5 #default: 3
+
+# networks:
+#   net-proxy:
+#     external: true
