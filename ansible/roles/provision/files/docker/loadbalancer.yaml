@@ -2,12 +2,15 @@ global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
-log:
-  level: "ERROR"
+# log:
+# level: "ERROR"
+# filePath: "/etc/traefik/logs/traefik.log"
+
+# accessLog:
+#   filePath: "/etc/traefik/logs/access.log"
 
 api:
   dashboard: true
-  insecure: true
 
 providers:
   file:
@@ -22,8 +25,6 @@ entryPoints:
         entryPoint:
           to: "websecure"
           scheme: "https"
+
   websecure:
     address: ":443"
-    # http:
-      # middlewares:
-        # - "security-headers"

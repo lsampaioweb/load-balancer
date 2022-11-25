@@ -1,0 +1,27 @@
+http:
+  middlewares:
+    rate-limit-headers:
+      rateLimit:
+        average: 100
+        burst: 50
+
+    inFlightReq-headers:
+      inFlightReq:
+        amount: 10
+
+    security-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        sslRedirect: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 63072000
+        contentTypeNosniff: true
+        accessControlMaxAge: 100
+        addVaryheader: true
+        referrerPolicy: "origin-when-cross-origin"
+
+    compress-headers:
+      compress: {}

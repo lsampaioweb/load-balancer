@@ -1,0 +1,14 @@
+http:
+  routers:
+    loadbalancer-secure:
+      entryPoints:
+        - "websecure"
+      service: "api@internal"
+      rule: "Host(`loadbalancer.homelab`, `loadbalancer-01.homelab`, `loadbalancer-02.homelab`)"
+      middlewares:
+        - "rate-limit-headers-loadbalancer"
+        - "inFlightReq-headers"
+        - "security-headers"
+        - "compress-headers"
+      tls:
+        options: "tls-loadbalancer"
