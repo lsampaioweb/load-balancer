@@ -3,3 +3,12 @@
   ansible.builtin.apt:
     update_cache: true
     upgrade: "safe"
+
+- name: "Installing required packages"
+  ansible.builtin.import_tasks: "roles/common/tasks/debian/packages/apt.yml"
+  vars:
+    packages:
+      - {name: "keepalived"} # To enable failover between two or more servers.
+
+- name: "Setting up the Keepalived package"
+  ansible.builtin.import_tasks: "roles/common/tasks/debian/packages/keepalived.yml"

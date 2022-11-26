@@ -30,7 +30,3 @@
     state: "present"
     restarted: true
   register: "output"
-
-# - name: "Printing the fingerprint (name and key)"
-#   ansible.builtin.debug:
-#     msg: "{{ output }}"

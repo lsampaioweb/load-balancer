@@ -1,0 +1,9 @@
+---
+state: "BACKUP"
+interface: "eth0"
+virtual_router_id: 1
+priority: 240
+advert_int: 2
+auth_type: "PASS"
+virtual_ipaddress: "192.168.0.200/24"
+unicast_peer_ip: "192.168.0.21"

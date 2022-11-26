@@ -14,17 +14,21 @@ http:
 
     headers-default:
       headers:
+        hostsProxyHeaders:
+          - "X-Forwarded-Host"
         frameDeny: true
         browserXssFilter: true
 
     headers-security:
       headers:
+        hostsProxyHeaders:
+          - "X-Forwarded-Host"
         frameDeny: true
         browserXssFilter: true
         forceSTSHeader: true
         stsIncludeSubdomains: true
         stsPreload: true
-        stsSeconds: 63072000
+        stsSeconds: 31536000
         contentTypeNosniff: true
         accessControlMaxAge: 100
         addVaryheader: true
