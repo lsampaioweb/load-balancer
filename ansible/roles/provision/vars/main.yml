@@ -9,5 +9,16 @@ root_password_id: "{{ password_id }}"
 ansible_password: "{{ lookup('pipe', 'secret-tool lookup password ' + root_password_id) }}"
 
 docker_path: "/opt/docker/"
-certificates_src_path: "/opt/certificates/loadbalancer.homelab/"
 certificates_dest_path: "{{ docker_path }}certificates/"
+
+certificates_src_path: "/opt/certificates/"
+cert_root_ca_src_path: "{{ certificates_src_path }}certificate.authority/"
+cert_loadbalancer_src_path: "{{ certificates_src_path }}loadbalancer.homelab/"
+cert_kvm_src_path: "{{ certificates_src_path }}kvm.homelab/"
+
+certificates:
+  - "{{ cert_root_ca_src_path }}certificate.authority.crt"
+  - "{{ cert_loadbalancer_src_path }}loadbalancer.homelab.crt"
+  - "{{ cert_loadbalancer_src_path }}loadbalancer.homelab.key"
+  - "{{ cert_kvm_src_path }}kvm.homelab.crt"
+  - "{{ cert_kvm_src_path }}kvm.homelab.key"

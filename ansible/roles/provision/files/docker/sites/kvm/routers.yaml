@@ -1,0 +1,162 @@
+http:
+  routers:
+    secure-kvm:
+      entryPoints:
+        - "websecure"
+      service: "kvm"
+      rule: "Host(`kvm.homelab`)"
+      middlewares:
+        - "headers-rate-limit"
+        - "headers-inFlightReq"
+      tls:
+        options: "tls-kvm"
+
+    secure-kvm-01:
+      entryPoints:
+        - "websecure"
+      service: "kvm-01"
+      rule: "Host(`kvm-01.homelab`)"
+      tls:
+        options: "tls-kvm"
+
+    secure-kvm-02:
+      entryPoints:
+        - "websecure"
+      service: "kvm-02"
+      rule: "Host(`kvm-02.homelab`)"
+      tls:
+        options: "tls-kvm"
+
+    secure-kvm-03:
+      entryPoints:
+        - "websecure"
+      service: "kvm-03"
+      rule: "Host(`kvm-03.homelab`)"
+      tls:
+        options: "tls-kvm"
+
+    secure-kvm-04:
+      entryPoints:
+        - "websecure"
+      service: "kvm-04"
+      rule: "Host(`kvm-04.homelab`)"
+      tls:
+        options: "tls-kvm"
+
+    secure-kvm-05:
+      entryPoints:
+        - "websecure"
+      service: "kvm-05"
+      rule: "Host(`kvm-05.homelab`)"
+      tls:
+        options: "tls-kvm"
+
+    secure-kvm-06:
+      entryPoints:
+        - "websecure"
+      service: "kvm-06"
+      rule: "Host(`kvm-06.homelab`)"
+      tls:
+        options: "tls-kvm"
+
+    secure-kvm-07:
+      entryPoints:
+        - "websecure"
+      service: "kvm-07"
+      rule: "Host(`kvm-07.homelab`)"
+      tls:
+        options: "tls-kvm"
+
+  services:
+    kvm:
+      weighted:
+        sticky:
+          cookie:
+            name: "kvm_sticky_cookie"
+            secure: true
+            httpOnly: true
+        services:
+          - name: "kvm-01"
+            weight: 1
+          - name: "kvm-02"
+            weight: 1
+          - name: "kvm-03"
+            weight: 1
+          - name: "kvm-04"
+            weight: 1
+          - name: "kvm-05"
+            weight: 1
+          - name: "kvm-06"
+            weight: 1
+          - name: "kvm-07"
+            weight: 1
+
+    kvm-01:
+      loadBalancer:
+        sticky:
+          cookie:
+            name: "kvm_node_sticky_cookie"
+            secure: true
+            httpOnly: true
+        servers:
+          - url: "https://192.168.0.11:8006"
+
+    kvm-02:
+      loadBalancer:
+        sticky:
+          cookie:
+            name: "kvm_node_sticky_cookie"
+            secure: true
+            httpOnly: true
+        servers:
+          - url: "https://192.168.0.12:8006"
+
+    kvm-03:
+      loadBalancer:
+        sticky:
+          cookie:
+            name: "kvm_node_sticky_cookie"
+            secure: true
+            httpOnly: true
+        servers:
+          - url: "https://192.168.0.13:8006"
+
+    kvm-04:
+      loadBalancer:
+        sticky:
+          cookie:
+            name: "kvm_node_sticky_cookie"
+            secure: true
+            httpOnly: true
+        servers:
+          - url: "https://192.168.0.14:8006"
+
+    kvm-05:
+      loadBalancer:
+        sticky:
+          cookie:
+            name: "kvm_node_sticky_cookie"
+            secure: true
+            httpOnly: true
+        servers:
+          - url: "https://192.168.0.15:8006"
+
+    kvm-06:
+      loadBalancer:
+        sticky:
+          cookie:
+            name: "kvm_node_sticky_cookie"
+            secure: true
+            httpOnly: true
+        servers:
+          - url: "https://192.168.0.16:8006"
+
+    kvm-07:
+      loadBalancer:
+        sticky:
+          cookie:
+            name: "kvm_node_sticky_cookie"
+            secure: true
+            httpOnly: true
+        servers:
+          - url: "https://192.168.0.17:8006"

@@ -1,6 +1,6 @@
 http:
   middlewares:
-    rate-limit-headers-loadbalancer:
+    headers-rate-limit-loadbalancer:
       rateLimit:
         average: 100
         burst: 100

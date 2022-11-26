@@ -1,0 +1,7 @@
+tls:
+  options:
+    tls-kvm:
+      minVersion: "VersionTLS13"
+  certificates:
+    - certFile: "/etc/traefik/certificates/kvm.homelab.crt"
+      keyFile: "/etc/traefik/certificates/kvm.homelab.key"

@@ -2,8 +2,8 @@ global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
-# log:
-# level: "ERROR"
+log:
+  level: "ERROR"
 # filePath: "/etc/traefik/logs/traefik.log"
 
 # accessLog:
@@ -25,6 +25,23 @@ entryPoints:
         entryPoint:
           to: "websecure"
           scheme: "https"
+          permanent: true
 
   websecure:
     address: ":443"
+
+serversTransport:
+  insecureSkipVerify: false
+  rootCAs:
+    - "/etc/traefik/certificates/certificate.authority.crt"
+
+# ping:
+#   entryPoint: "websecure"
+
+# metrics:
+#   prometheus:
+#     buckets:
+#       - 0.1
+#       - 0.3
+#       - 1.2
+#       - 5.0
