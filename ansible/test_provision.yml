@@ -1,6 +1,6 @@
 ---
 - name: "Preparing the virtual machine with some settings"
-  hosts: "target"
+  hosts: "all"
   become: true
 
   roles:

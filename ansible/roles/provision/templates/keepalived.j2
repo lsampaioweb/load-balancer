@@ -3,11 +3,11 @@ global_defs {
 }
 
 vrrp_instance VI_loadbalancer {
-  state {{ state }}
-  interface {{ interface }}
+  state {{ vm_type | default('master') | upper }}
+  interface {{ interface | default('eth0') }}
   virtual_router_id {{ virtual_router_id }}
   priority {{ priority }}
-  advert_int {{ advert_int }}
+  advert_int {{ advert_int | default(2) }}
   authentication {
     auth_type {{ auth_type }}
     auth_pass {{ ansible_password | truncate(8, True, '') | upper }}

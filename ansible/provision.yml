@@ -1,6 +1,17 @@
 ---
 - name: "Preparing the virtual machine with some settings"
-  hosts: "all"
+  hosts: "localhost"
+  gather_facts: false
+  tasks:
+    - name: "Add public ip addresses to the dynamic inventory (in-memory)"
+      ansible.builtin.add_host:
+        hostname: "{{ hostname }}"
+        ansible_host: "{{ public_ip }}"
+        password_id: "{{ password_id }}"
+        groups: "{{ vm_type | lower }}"
+
+- name: "Preparing the virtual machine with some settings"
+  hosts: "{{ vm_type | default('all') | lower }}"
   become: true
 
   roles:
