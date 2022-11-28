@@ -3,20 +3,20 @@ global_defs {
 }
 
 vrrp_instance VI_loadbalancer {
-  state {{ vm_type | default('master') | upper }}
+  state {{ state | default('MASTER') | upper }}
   interface {{ interface | default('eth0') }}
-  virtual_router_id {{ virtual_router_id }}
-  priority {{ priority }}
+  virtual_router_id {{ virtual_router_id | default(1) }}
+  priority {{ priority | default(250) }}
   advert_int {{ advert_int | default(2) }}
   authentication {
-    auth_type {{ auth_type }}
-    auth_pass {{ ansible_password | truncate(8, True, '') | upper }}
+    auth_type {{ auth_type | default('PASS') }}
+    auth_pass {{ ansible_password | truncate(8, true, '') | upper }}
   }
-  unicast_src_ip {{ ansible_host }}
+  unicast_src_ip {{ unicast_src_ip }}
   unicast_peer {
-    {{ unicast_peer_ip }}
+    {{ unicast_peer_ip | replace(',', '\n    ') }}
   }
   virtual_ipaddress {
-    {{ virtual_ipaddress }}
+    {{ virtual_ipaddress | default('192.168.0.200/24') }}
   }
 }

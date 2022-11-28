@@ -1,9 +1,0 @@
-#[master]
-#target-01 ansible_host=ip hostname=stg-load-balancer-01
-
-#[backup]
-#target-02 ansible_host=ip hostname=stg-load-balancer-02
-
-#[all:vars]
-#password_id=load-balancer
-#password_id=ubuntu-22-04-server-std-docker

@@ -1,37 +1,16 @@
-variable "vm_object" {
-  type = map(object({
-    vm_type = optional(string)
-    onboot  = optional(bool)
-    vcpus   = optional(number)
-  }))
-  default = {
-    "01" = {
-      vm_type = "master"
-      onboot  = true
-      vcpus   = 3
-    },
-    "02" = {
-      vm_type = "backup"
-      onboot  = true
-      vcpus   = 3
-    }
-  }
-}
+module "random-target-node" {
+  for_each = var.vm_instance
 
-resource "random_integer" "target_node" {
-  for_each = var.vm_object
-
-  min      = 1
-  max      = 7
+  source = "../modules/random-target-node"
 }
 
 module "proxmox-ubuntu-22-04" {
-  for_each = var.vm_object
+  for_each = var.vm_instance
 
   source = "../modules/proxmox-ubuntu-22-04"
   clone  = "ubuntu-22-04-server-std-docker"
 
-  target_node = "kvm-0${random_integer.target_node[each.key].result}"
+  target_node = "kvm-0${module.random-target-node[each.key].result}"
   name        = "stg-load-balancer-${each.key}"
   onboot      = each.value.onboot
   vcpus       = each.value.vcpus
@@ -41,15 +20,50 @@ module "proxmox-ubuntu-22-04" {
 }
 
 resource "local_file" "ansible_hosts" {
-  for_each = var.vm_object
-
-  content = templatefile("../../ansible/extra_vars.tpl",
+  content = templatefile(local.path_inventory_hosts_template,
     {
-      vm_type     = each.value.vm_type
-      hostname    = module.proxmox-ubuntu-22-04[each.key].vm_name
-      public_ip   = module.proxmox-ubuntu-22-04[each.key].vm_ipv4
-      password_id = module.proxmox-ubuntu-22-04[each.key].vm_cloned_from
+      master_list = [
+        for key, value in var.vm_instance :
+        {
+          hostname    = module.proxmox-ubuntu-22-04[key].vm_name
+          public_ip   = module.proxmox-ubuntu-22-04[key].vm_ipv4
+          password_id = module.proxmox-ubuntu-22-04[key].vm_cloned_from
+
+          state          = value.state
+          priority       = value.priority
+          unicast_src_ip = module.proxmox-ubuntu-22-04[key].vm_ipv4
+
+          unicast_peer_ip = join(",", [
+            for key1, value1 in var.vm_instance :
+            module.proxmox-ubuntu-22-04[key1].vm_ipv4
+            if module.proxmox-ubuntu-22-04[key].vm_ipv4 !=
+            module.proxmox-ubuntu-22-04[key1].vm_ipv4
+          ])
+        } if value.state == "MASTER"
+      ]
+      backup_list = [
+        for key, value in var.vm_instance :
+        {
+          hostname    = module.proxmox-ubuntu-22-04[key].vm_name
+          public_ip   = module.proxmox-ubuntu-22-04[key].vm_ipv4
+          password_id = module.proxmox-ubuntu-22-04[key].vm_cloned_from
+
+          state          = value.state
+          priority       = value.priority
+          unicast_src_ip = module.proxmox-ubuntu-22-04[key].vm_ipv4
+
+          unicast_peer_ip = join(",", [
+            for key1, value1 in var.vm_instance :
+            module.proxmox-ubuntu-22-04[key1].vm_ipv4
+            if module.proxmox-ubuntu-22-04[key].vm_ipv4 !=
+            module.proxmox-ubuntu-22-04[key1].vm_ipv4
+          ])
+        } if value.state == "BACKUP"
+      ]
     }
   )
-  filename = "../../ansible/${each.key}.json"
+  filename = local.path_inventory_hosts
+
+  directory_permission = "0644"
+  file_permission      = "0644"
 }
