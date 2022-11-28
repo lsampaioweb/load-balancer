@@ -24,13 +24,7 @@ Run these commands on the Proxmox node (just once and on any node):
 Run these commands on the computer that is running Terraform:
 
 ```bash
-  01 - Save the password in the secret manager.
-    secret-tool store --label="proxmox-terraform-password" password proxmox-terraform-password
-
-  02 - Save the API token in the secret manager.
-    secret-tool store --label="proxmox-terraform-token" token proxmox-terraform-token
-
-  03 - Add the API token of the user to the ~/.bashrc file.
+  01 - Add the API token of the user to the ~/.bashrc file.
     nano ~/.bashrc
     # Function to unlock gnome keyring for headless logins.
     function unlock-keyring ()
@@ -42,47 +36,17 @@ Run these commands on the computer that is running Terraform:
       export PM_API_TOKEN_SECRET=$(secret-tool lookup token "proxmox-terraform-token")
     }
 
-  04 - Run the unlock-keyring command on the terminal to unlock the secret - manager.
+  02 - Run the unlock-keyring command on the terminal to unlock the secret - manager.
     source ~/.bashrc  
     unlock-keyring
 
-  05 - Create the necessary folders and files.
-    mkdir modules
-    cd modules
-    git submodule add https://github.com/lsampaioweb/terraform-proxmox-ubuntu-22-04-module.git proxmox-ubuntu-22-04
+  03 - Save the password in the secret manager.
+    secret-tool store --label="proxmox-terraform-password" password proxmox-terraform-password
 
-    cd ..
-    mkdir stagging
-    mkdir production
+  04 - Save the API token in the secret manager.
+    secret-tool store --label="proxmox-terraform-token" token proxmox-terraform-token
 
-    cd stagging # Repeat these steps for the production folder.
-    nano providers.tf
-    terraform {
-      required_providers {
-        proxmox = {
-          source  = "Telmate/proxmox"
-          version = "2.9.11"
-        }
-      }
-    }
-
-    provider "proxmox" {
-      pm_api_url      = "https://proxmoxurl:8006/api2/json"
-      pm_api_token_id = "terraform@pve!terraform"
-    }
-
-    cd ..
-    nano main.tf
-    module "proxmox-ubuntu-22-04" {
-      source = "../modules/proxmox-ubuntu-22-04"
-
-      clone       = "ubuntu-22-04-server-standard"
-      name        = "ubuntu-22-04-server-standard-vm-stagging"
-      description = "Ubuntu 22.04 VM with the default settings"
-      pool        = "Stagging"
-    }
-
-  06 - Run Terraform to create the VM.
+  05 - Run Terraform to create the VM.
     cd terraform/{stagging or production}
     terraform init
 
