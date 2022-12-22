@@ -22,7 +22,7 @@ module "proxmox-vm" {
 resource "local_file" "ansible_hosts" {
   content = templatefile(local.path_inventory_hosts_template,
     {
-      master_list = [
+      host_list = [
         for key, value in var.vm_instance :
         {
           hostname    = module.proxmox-vm[key].vm_name
@@ -39,26 +39,7 @@ resource "local_file" "ansible_hosts" {
             if module.proxmox-vm[key].vm_ipv4 !=
             module.proxmox-vm[key1].vm_ipv4
           ])
-        } if value.state == "MASTER"
-      ]
-      backup_list = [
-        for key, value in var.vm_instance :
-        {
-          hostname    = module.proxmox-vm[key].vm_name
-          public_ip   = module.proxmox-vm[key].vm_ipv4
-          password_id = module.proxmox-vm[key].vm_cloned_from
-
-          state          = value.state
-          priority       = value.priority
-          unicast_src_ip = module.proxmox-vm[key].vm_ipv4
-
-          unicast_peer_ip = join(",", [
-            for key1, value1 in var.vm_instance :
-            module.proxmox-vm[key1].vm_ipv4
-            if module.proxmox-vm[key].vm_ipv4 !=
-            module.proxmox-vm[key1].vm_ipv4
-          ])
-        } if value.state == "BACKUP"
+        }
       ]
     }
   )
