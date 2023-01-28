@@ -5,7 +5,7 @@ module "random-target-node" {
 }
 
 module "proxmox-vm" {
-  source = "github.com/lsampaioweb/terraform-proxmox-vm-module.git?ref=v1.1"
+  source = "github.com/lsampaioweb/terraform-proxmox-vm-module.git?ref=v1.3"
 
   for_each = var.vm_instance
 
@@ -13,6 +13,7 @@ module "proxmox-vm" {
   clone       = "ubuntu-22-04-server-std-docker"
   name        = "stg-load-balancer-${each.key}"
   onboot      = each.value.onboot
+  startup     = each.value.startup
   vcpus       = each.value.vcpus
 
   description = "Traefik VM as Load Balancer."
