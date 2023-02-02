@@ -1,5 +1,5 @@
 output "virtual_machines" {
-  value = module.proxmox-vm
+  value = module.proxmox_vm
 }
 
 output "app_url" {
