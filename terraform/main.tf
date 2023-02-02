@@ -23,46 +23,26 @@ module "proxmox_vm" {
   pool        = var.environment
 }
 
-resource "local_file" "ansible_hosts" {
-  content = templatefile(local.path_inventory_hosts_template,
+module "dynamic_ansible_hosts" {
+  source = "./modules/dynamic-ansible-hosts"
+
+  hosts_list = [
+    for key, value in var.vm_instance :
     {
-      host_list = [
-        for key, value in var.vm_instance :
-        {
-          hostname    = module.proxmox_vm[key].vm_name
-          public_ip   = module.proxmox_vm[key].vm_ipv4
-          password_id = module.proxmox_vm[key].vm_cloned_from
+      hostname    = module.proxmox_vm[key].vm_name
+      public_ip   = module.proxmox_vm[key].vm_ipv4
+      password_id = module.proxmox_vm[key].vm_cloned_from
 
-          state          = value.state
-          priority       = value.priority
-          unicast_src_ip = module.proxmox_vm[key].vm_ipv4
+      state          = value.state
+      priority       = value.priority
+      unicast_src_ip = module.proxmox_vm[key].vm_ipv4
 
-          unicast_peer_ip = join(",", [
-            for key1, value1 in var.vm_instance :
-            module.proxmox_vm[key1].vm_ipv4
-            if module.proxmox_vm[key].vm_ipv4 !=
-            module.proxmox_vm[key1].vm_ipv4
-          ])
-        }
-      ]
+      unicast_peer_ip = join(",", [
+        for key1, value1 in var.vm_instance :
+        module.proxmox_vm[key1].vm_ipv4
+        if module.proxmox_vm[key].vm_ipv4 !=
+        module.proxmox_vm[key1].vm_ipv4
+      ])
     }
-  )
-  filename = local.path_inventory_hosts
-
-  directory_permission = "0644"
-  file_permission      = "0644"
-
-  provisioner "local-exec" {
-    working_dir = local.path_ansible_scripts
-
-    command = "ansible-playbook provision.yml"
-  }
-
-  # provisioner "local-exec" {
-  #   when = destroy
-
-  #   working_dir = "../../ansible"
-
-  #   command = "ansible-playbook destroy.yml"
-  # }
+  ]
 }
