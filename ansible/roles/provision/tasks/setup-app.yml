@@ -18,11 +18,6 @@
     mode: "0644"
   loop: "{{ certificates }}"
 
-- name: "Create a network"
-  community.docker.docker_network:
-    name: "loadbalancer"
-    state: "present"
-
 - name: "Creating and starting services (docker-compose up)"
   community.docker.docker_compose:
     project_name: "loadbalancer"

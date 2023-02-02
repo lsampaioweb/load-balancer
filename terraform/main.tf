@@ -9,15 +9,16 @@ module "proxmox-vm" {
 
   for_each = var.vm_instance
 
-  target_node = "kvm-0${module.random-target-node[each.key].result}"
-  clone       = "ubuntu-22-04-server-std-docker"
-  name        = "stg-load-balancer-${each.key}"
+  target_node = "kvm-${format("%.2d", module.random-target-node[each.key].result)}"
+  clone       = (each.value.clone != null) ? each.value.clone : "ubuntu-22-04-server-std-docker"
+  name        = "${var.environment_short_name}-load-balancer-${each.key}"
   onboot      = each.value.onboot
   startup     = each.value.startup
   vcpus       = each.value.vcpus
+  networks    = each.value.networks
 
-  description = "Traefik VM as Load Balancer."
-  pool        = "Staging"
+  description = "Traefik VM as Load Balancer - ${var.environment}."
+  pool        = var.environment
 }
 
 resource "local_file" "ansible_hosts" {
@@ -58,7 +59,7 @@ resource "local_file" "ansible_hosts" {
   # provisioner "local-exec" {
   #   when = destroy
 
-  #   working_dir = local.path_ansible_scripts
+  #   working_dir = "../../ansible"
 
   #   command = "ansible-playbook destroy.yml"
   # }
