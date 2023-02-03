@@ -1,16 +1,13 @@
-environment            = "Production"
-environment_short_name = "prd"
+project     = "Load Balancer"
+environment = "Production"
 
 vm_instance = {
   "01" = {
     # VM
-    onboot  = true
     startup = "order=10"
-    vcpus   = 3
     networks = {
       "01" = {
         bridge = "vmbr0"
-        model  = "virtio"
         tag    = 2005
       }
     }
@@ -21,13 +18,10 @@ vm_instance = {
   },
   "02" = {
     # VM
-    onboot  = true
     startup = "order=11"
-    vcpus   = 3
     networks = {
       "01" = {
         bridge = "vmbr0"
-        model  = "virtio"
         tag    = 2005
       }
     }

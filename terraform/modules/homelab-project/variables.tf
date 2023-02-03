@@ -1,3 +1,15 @@
+variable "random_target_node_min" {
+  description = "The minimum inclusive value of the range."
+  type        = number
+  default     = 1
+}
+
+variable "random_target_node_max" {
+  description = "The maximum inclusive value of the range."
+  type        = number
+  default     = 7
+}
+
 variable "project" {
   description = "The name of the project e.g Firewall or Load Balancer."
   type        = string
@@ -25,64 +37,64 @@ variable "vm_instance" {
     ## General
     target_node = optional(string)
     name        = optional(string)
-    vmid        = optional(number)
+    vmid        = optional(number, 0)
+    bios        = optional(string, "seabios")
     description = optional(string)
-    bios        = optional(string)
-    onboot      = optional(bool, true)
+    onboot      = optional(bool)
     startup     = optional(string)
     oncreate    = optional(bool)
     pool        = optional(string)
 
     ## Clone
-    os_type      = optional(string)
-    clone        = optional(string, "ubuntu-22-04-server-std-docker")
+    os_type      = optional(string, "ubuntu")
+    clone        = string
     full_clone   = optional(bool)
     force_create = optional(bool)
 
-    # ## OS
-    tablet  = optional(bool)
-    boot    = optional(string)
-    agent   = optional(number)
-    qemu_os = optional(string)
+    ## OS
+    tablet  = optional(bool, false)
+    boot    = optional(string, "order=scsi0")
+    agent   = optional(number, 1)
+    qemu_os = optional(string, "l26")
     numa    = optional(bool)
     hotplug = optional(string)
-    scsihw  = optional(string)
+    scsihw  = optional(string, "virtio-scsi-single")
     tags    = optional(string)
     vga = optional(object({
       type   = optional(string)
       memory = optional(number)
-    }))
+    }), {})
 
     ## CPU
-    cpu     = optional(string)
-    sockets = optional(number)
-    cores   = optional(number)
-    vcpus   = optional(number, 3)
+    cpu     = optional(string, "kvm64")
+    sockets = optional(number, 1)
+    cores   = optional(number, 6)
+    vcpus   = optional(number, 2)
 
     ## Memory
-    memory  = optional(number)
-    balloon = optional(number)
+    memory  = optional(number, 4096)
+    balloon = optional(number, 2048)
 
     ## Hard Disk
     disks = optional(map(object({
-      type      = optional(string)
-      storage   = optional(string)
-      size      = optional(string)
-      format    = optional(string)
-      cache     = optional(string)
-      backup    = optional(number)
-      iothread  = optional(number)
-      replicate = optional(number)
-      ssd       = optional(number)
-      discard   = optional(string)
+      type      = optional(string, "scsi")
+      storage   = optional(string, "Ceph_Gold")
+      size      = optional(string, "20G")
+      format    = optional(string, "raw")
+      cache     = optional(string, "none")
+      backup    = optional(number, 0)
+      iothread  = optional(number, 1)
+      replicate = optional(number, 0)
+      ssd       = optional(number, 1)
+      discard   = optional(string, "on")
       })), {
       "01" = {}
     })
 
     ## Networks
     networks = optional(map(object({
-      model    = optional(string)
-      bridge   = optional(string)
+      model    = optional(string, "virtio")
+      bridge   = optional(string, "vmbr0")
       tag      = optional(number)
       firewall = optional(bool)
       macaddr  = optional(string)
@@ -91,11 +103,7 @@ variable "vm_instance" {
     })
 
     ## High Availability
-    hagroup = optional(string)
-    hastate = optional(string)
-
-    # Project
-    state    = optional(string)
-    priority = optional(number)
+    hagroup = optional(string, "default")
+    hastate = optional(string, "started")
   }))
 }

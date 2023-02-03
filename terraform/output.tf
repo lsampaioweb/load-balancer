@@ -1,5 +1,9 @@
+# output "random_target_node_formatted_result" {
+#   value = values(module.homelab_project.random_target_node_result)[*].formatted_result
+# }
+
 output "virtual_machines" {
-  value = module.proxmox_vm
+  value = module.homelab_project.vms
 }
 
 output "app_url" {
