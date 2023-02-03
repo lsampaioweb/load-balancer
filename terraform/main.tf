@@ -23,8 +23,8 @@ module "proxmox_vm" {
   pool        = var.environment
 }
 
-module "dynamic_ansible_hosts" {
-  source = "./modules/dynamic-ansible-hosts"
+module "ansible_dynamic_inventory" {
+  source = "./modules/ansible-dynamic-inventory"
 
   hosts_list = [
     for key, value in var.vm_instance :
