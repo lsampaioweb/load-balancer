@@ -7,7 +7,6 @@ vm_instance = {
     startup = "order=2010"
     networks = {
       "01" = {
-        bridge = "vmbr0"
         tag    = 5
       }
     }
@@ -21,7 +20,6 @@ vm_instance = {
     startup = "order=2011"
     networks = {
       "01" = {
-        bridge = "vmbr0"
         tag    = 5
       }
     }
