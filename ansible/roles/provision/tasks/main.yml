@@ -7,3 +7,6 @@
 
 - name: "Setting up the load balancer"
   ansible.builtin.import_tasks: "setup-app.yml"
+
+- name: "Checking if a reboot is required"
+  ansible.builtin.import_tasks: "roles/common/tasks/debian/os/reboot-if-required.yml"
