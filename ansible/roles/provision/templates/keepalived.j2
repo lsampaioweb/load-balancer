@@ -17,6 +17,6 @@ vrrp_instance VI_loadbalancer {
     {{ unicast_peer_ip | replace(',', '\n    ') }}
   }
   virtual_ipaddress {
-    {{ virtual_ipaddress | default('10.0.5.4/28') }}
+    {{ virtual_ipaddress | default('10.0.4.4/27') }}
   }
 }
