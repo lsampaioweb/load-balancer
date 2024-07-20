@@ -4,7 +4,7 @@ http:
       entryPoints:
         - "websecure"
       service: "kvm"
-      rule: "Host(`kvm.homelab`)"
+      rule: "Host(`kvm.lan.homelab`)"
       middlewares:
         - "headers-rate-limit"
         - "headers-inFlightReq"
@@ -15,7 +15,7 @@ http:
       entryPoints:
         - "websecure"
       service: "kvm-01"
-      rule: "Host(`kvm-01.homelab`)"
+      rule: "Host(`kvm-01.lan.homelab`)"
       tls:
         options: "tls-kvm"
 
@@ -23,7 +23,7 @@ http:
       entryPoints:
         - "websecure"
       service: "kvm-02"
-      rule: "Host(`kvm-02.homelab`)"
+      rule: "Host(`kvm-02.lan.homelab`)"
       tls:
         options: "tls-kvm"
 
@@ -31,7 +31,7 @@ http:
       entryPoints:
         - "websecure"
       service: "kvm-03"
-      rule: "Host(`kvm-03.homelab`)"
+      rule: "Host(`kvm-03.lan.homelab`)"
       tls:
         options: "tls-kvm"
 
@@ -39,7 +39,7 @@ http:
       entryPoints:
         - "websecure"
       service: "kvm-04"
-      rule: "Host(`kvm-04.homelab`)"
+      rule: "Host(`kvm-04.lan.homelab`)"
       tls:
         options: "tls-kvm"
 
@@ -47,7 +47,7 @@ http:
       entryPoints:
         - "websecure"
       service: "kvm-05"
-      rule: "Host(`kvm-05.homelab`)"
+      rule: "Host(`kvm-05.lan.homelab`)"
       tls:
         options: "tls-kvm"
 
@@ -55,7 +55,7 @@ http:
       entryPoints:
         - "websecure"
       service: "kvm-06"
-      rule: "Host(`kvm-06.homelab`)"
+      rule: "Host(`kvm-06.lan.homelab`)"
       tls:
         options: "tls-kvm"
 
@@ -63,7 +63,7 @@ http:
       entryPoints:
         - "websecure"
       service: "kvm-07"
-      rule: "Host(`kvm-07.homelab`)"
+      rule: "Host(`kvm-07.lan.homelab`)"
       tls:
         options: "tls-kvm"
 

@@ -13,12 +13,12 @@ certificates_dest_path: "{{ docker_path }}certificates/"
 
 certificates_src_path: "/opt/certificates/"
 cert_root_ca_src_path: "{{ certificates_src_path }}certificate.authority/"
-cert_loadbalancer_src_path: "{{ certificates_src_path }}loadbalancer.homelab/"
-cert_kvm_src_path: "{{ certificates_src_path }}kvm.homelab/"
+cert_loadbalancer_src_path: "{{ certificates_src_path }}loadbalancer.lan.homelab/"
+cert_kvm_src_path: "{{ certificates_src_path }}kvm.lan.homelab/"
 
 certificates:
   - "{{ cert_root_ca_src_path }}certificate.authority.crt"
-  - "{{ cert_loadbalancer_src_path }}loadbalancer.homelab.crt"
-  - "{{ cert_loadbalancer_src_path }}loadbalancer.homelab.key"
-  - "{{ cert_kvm_src_path }}kvm.homelab.crt"
-  - "{{ cert_kvm_src_path }}kvm.homelab.key"
+  - "{{ cert_loadbalancer_src_path }}loadbalancer.lan.homelab.crt"
+  - "{{ cert_loadbalancer_src_path }}loadbalancer.lan.homelab.key"
+  - "{{ cert_kvm_src_path }}kvm.lan.homelab.crt"
+  - "{{ cert_kvm_src_path }}kvm.lan.homelab.key"
