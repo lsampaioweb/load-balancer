@@ -1,6 +1,6 @@
 module "homelab_project" {
   source  = "lsampaioweb/homelab-project/proxmox"
-  version = "1.0.5"
+  version = "1.0.10"
 
   project     = var.project
   environment = var.environment
@@ -10,13 +10,13 @@ module "homelab_project" {
 
 module "dynamic_inventory" {
   source  = "lsampaioweb/dynamic-inventory/local"
-  version = "1.0.2"
+  version = "1.0.4"
 
   hosts_list = [
     for key, value in var.vm_instances :
     {
-      hostname    = module.homelab_project.vms[key].name
-      public_ip   = module.homelab_project.vms[key].ipv4
+      hostname = module.homelab_project.vms[key].name
+      # public_ip   = module.homelab_project.vms[key].ipv4
       password_id = module.homelab_project.vms[key].clone
 
       state          = value.state
