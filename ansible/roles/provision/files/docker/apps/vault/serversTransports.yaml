@@ -1,0 +1,18 @@
+# HTTP transport settings
+http:
+  serversTransports:
+    # Define a transport configuration for TLS connections to Vault
+    tls-vault:
+      # Enable or disable verification of server certificates
+      # Uncomment to skip verification (not recommended for production)
+      # insecureSkipVerify: true
+
+      # Default is false, meaning server certificates are verified
+      insecureSkipVerify: false
+
+      # Set the server name for SNI (Server Name Indication)
+      serverName: "vault.lan.homelab"
+
+      # Path to the root CA certificate used to verify the server's certificate
+      rootCAs:
+        - "/etc/traefik/certificates/ca.lan.homelab.crt"

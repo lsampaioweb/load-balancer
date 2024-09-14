@@ -1,0 +1,10 @@
+# HTTP middleware configuration
+http:
+  middlewares:
+    # Define a rate limit middleware for the load balancer
+    headers-rate-limit-loadbalancer:
+      rateLimit:
+        # Maximum average requests per second
+        average: 50
+        # Burst limit allows short-term spikes in requests
+        burst: 50

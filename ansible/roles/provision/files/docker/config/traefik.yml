@@ -1,0 +1,112 @@
+global:
+  # Disables automatic checks for new Traefik versions.
+  checkNewVersion: false
+
+  # Disables sending anonymous usage statistics to Traefik.
+  sendAnonymousUsage: false
+
+log:
+  # Sets log level to INFO; other levels include DEBUG, WARNING, ERROR, CRITICAL.
+  level: "INFO"
+
+  # Log format options: common (default), json, or logfmt.
+  # format: "common"
+
+  # Specifies the file path for the main Traefik log.
+  filePath: "/var/log/traefik/traefik.log"
+
+  # Sets maximum log file size in megabytes before rotation.
+  maxSize: 10
+
+  # Keeps up to 100 old log files as backups.
+  maxBackups: 100
+
+  # Deletes log files older than 2 days.
+  maxAge: 2
+
+  # Enables compression for rotated log files.
+  compress: true
+
+accessLog:
+  # Excludes internal fields from the access log.
+  addInternals: false
+
+  # Access log format options: common (default), json, or logfmt.
+  # format: "common"
+
+  fields:
+    names:
+      # Removes the StartUTC field from access log entries.
+      StartUTC: "drop"
+
+  # Specifies the file path for the access log.
+  filePath: "/var/log/traefik/access.log"
+
+api:
+  # Enables the Traefik dashboard.
+  dashboard: true
+
+ping:
+  # Exposes the ping health check endpoint on the specified entry point.
+  entryPoint: "ping"
+
+providers:
+  file:
+    # Specifies the directory for dynamic configuration files.
+    directory: "/etc/traefik/apps"
+
+    # Enables watching the directory for changes to dynamically reload configurations.
+    watch: true
+
+  docker:
+    # Specifies the Docker network to use for Traefik.
+    network: "reverse-proxy"
+
+    # Defines the default hostname rule for Docker services.
+    defaultRule: 'Host(`{{ normalize .Name }}.lan.homelab`)'
+
+    # Prevents exposing Docker services by default unless explicitly enabled.
+    exposedByDefault: false
+
+entryPoints:
+  ping:
+    # Configures the ping entry point to listen on port 8080.
+    address: ":8080"
+
+  web:
+    # Configures the web entry point to listen on port 80 (HTTP).
+    address: ":80"
+
+    http:
+      redirections:
+        entryPoint:
+          # Redirects all HTTP traffic to HTTPS.
+          to: "websecure"
+
+          # Specifies HTTPS as the redirect scheme.
+          scheme: "https"
+
+          # Makes the redirection permanent (HTTP status 301).
+          permanent: true
+
+  websecure:
+    # Configures the websecure entry point to listen on port 443 (HTTPS).
+    address: ":443"
+
+    # Enables HTTP/3 for the websecure entry point.
+    http3: {}
+
+  postgres:
+    # Configures the postgres entry point to listen on port 5432 (typically used for PostgreSQL).
+    address: ":5432"
+
+serversTransport:
+  # Bypasses SSL certificate verification for HTTP traffic (commented out).
+  # insecureSkipVerify: true
+
+  # Enforces SSL certificate verification for HTTPS traffic.
+  insecureSkipVerify: false
+
+  # Specifies the root CA certificate to use for HTTPS verification.
+  rootCAs:
+    - "/etc/traefik/certificates/ca.lan.homelab.crt"

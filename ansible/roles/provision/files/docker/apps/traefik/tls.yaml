@@ -1,0 +1,6 @@
+# TLS options configuration
+tls:
+  options:
+    tls-loadbalancer:
+      # Set the minimum TLS version to 1.3 for enhanced security
+      minVersion: "VersionTLS13"

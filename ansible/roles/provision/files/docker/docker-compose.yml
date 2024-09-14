@@ -1,0 +1,59 @@
+# Specify the version of the Docker Compose file format
+version: "3.9"
+
+# Define networks used by the services
+networks:
+  # Network configuration for the reverse proxy
+  reverse-proxy:
+    # Use an external network created outside of this Compose file
+    external: true
+
+# Define the services to be deployed
+services:
+  # Traefik service configuration
+  traefik:
+    # Use the latest Traefik image from Docker Hub
+    image: "traefik:latest"
+    # Name of the container
+    container_name: "traefik"
+    # Restart policy for the container
+    restart: "unless-stopped"
+    # Security options to prevent privilege escalation
+    security_opt:
+      - "no-new-privileges:true"
+    # Mount volumes into the container
+    volumes:
+      # Provide access to Docker socket for Traefik to monitor containers
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      # Ensure container uses the host's timezone settings
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      # Mount configuration, certificates, and log directories
+      - "./apps/:/etc/traefik/apps/"
+      - "./certificates/:/etc/traefik/certificates/"
+      - "./config/traefik.yml:/etc/traefik/traefik.yml:ro"
+      - "./log/:/var/log/traefik/"
+    # Attach the container to the reverse-proxy network
+    networks:
+      - "reverse-proxy"
+    # Expose ports for HTTP, HTTPS, and PostgreSQL
+    ports:
+      # Map HTTP and HTTPS ports
+      - "80:80"
+      - "443:443"
+      # Map PostgreSQL port
+      - "5432:5432"
+      # - "6379:6379"
+      # - "15672:15672"
+    # Health check configuration to ensure the container is healthy
+    healthcheck:
+      # Command to test the health of the Traefik container
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      # Time to wait before starting the health checks
+      start_period: "2s"
+      # Interval between health checks
+      interval: "10s"
+      # Timeout for each health check
+      timeout: "2s"
+      # Number of retries before marking the container as unhealthy
+      retries: 2

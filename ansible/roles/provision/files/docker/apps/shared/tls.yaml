@@ -1,0 +1,18 @@
+# TLS configuration settings
+tls:
+  options:
+    # Define default TLS options
+    default:
+      # Set the minimum TLS version to 1.3 for improved security
+      minVersion: "VersionTLS13"
+
+  # TLS certificate stores
+  stores:
+    # Default certificate store settings
+    default:
+      # Specify the default certificate for the store
+      defaultCertificate:
+        # Path to the certificate file (public key)
+        certFile: "/etc/traefik/certificates/wildcard.lan.homelab.crt"
+        # Path to the private key file
+        keyFile: "/etc/traefik/certificates/wildcard.lan.homelab.key"

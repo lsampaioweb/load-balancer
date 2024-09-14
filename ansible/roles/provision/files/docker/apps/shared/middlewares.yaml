@@ -1,0 +1,71 @@
+http:
+  middlewares:
+    headers-rate-limit:
+      rateLimit:
+        # Sets the maximum number of requests allowed to burst above the average rate.
+        burst: 50
+
+        # Defines the average number of requests allowed per period.
+        average: 25
+
+        # Sets the time period for the rate limit (commented out, default is 1s).
+        # period: "1s"
+
+    headers-inFlightReq:
+      inFlightReq:
+        # Limits the number of concurrent requests allowed to pass through the middleware.
+        amount: 25
+
+    headers-default:
+      headers:
+        hostsProxyHeaders:
+          # List of headers that specify the client’s original request information.
+          - "X-Forwarded-For"
+          - "X-Forwarded-Host"
+          - "X-Forwarded-Port"
+          - "X-Forwarded-Proto"
+          - "X-Forwarded-Server"
+          - "X-Real-Ip"
+
+    headers-security:
+      # Security headers configuration
+      headers:
+        # Prevents the page from being displayed in a frame or iframe from a different origin
+        frameDeny: false
+        customFrameOptionsValue: "SAMEORIGIN"
+
+        # Content Security Policy to control what sources are allowed to load content
+        contentSecurityPolicy: "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; frame-ancestors 'self'"
+
+        # Force HTTPS redirect
+        sslRedirect: true
+
+        # Force use of the HSTS header
+        forceSTSHeader: true
+
+        # Applies HSTS policy to all subdomains
+        stsIncludeSubdomains: true
+
+        # Indicates the domain should be included in browsers' HSTS preload lists
+        stsPreload: true
+
+        # HSTS max-age set to 1 year
+        stsSeconds: 31536000
+
+        # Prevents browsers from MIME-sniffing content away from the declared content type
+        contentTypeNosniff: true
+
+        # Controls the maximum time a preflight request can be cached (100 seconds)
+        accessControlMaxAge: 100
+
+        # Adds the Vary header to responses to improve caching
+        addVaryheader: true
+
+        # Controls how much referrer information is included with requests
+        referrerPolicy: "strict-origin-when-cross-origin"
+
+        # Cross-Origin Opener Policy to protect against cross-origin leaks
+        crossOriginOpenerPolicy: "same-origin"
+
+        # Cross-Origin Resource Policy to restrict resource loading from other origins
+        crossOriginResourcePolicy: "same-origin"
