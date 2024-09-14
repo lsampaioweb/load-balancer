@@ -1,0 +1,26 @@
+---
+domain: "lan.homelab"
+
+# Import Paths.
+path_roles_common: "roles/common"
+path_common_tasks: "{{ path_roles_common }}/tasks"
+path_tasks_debian: "{{ path_common_tasks }}/debian"
+
+# Known_hosts.
+path_debian_known_hosts: "{{ path_tasks_debian }}/known_hosts"
+path_debian_known_hosts_add_current: "{{ path_debian_known_hosts }}/add_current.yml"
+path_debian_known_hosts_add: "{{ path_debian_known_hosts }}/add.yml"
+path_debian_known_hosts_remove: "{{ path_debian_known_hosts }}/remove.yml"
+
+# Packages.
+path_debian_packages: "{{ path_tasks_debian }}/packages"
+path_packages_apt: "{{ path_debian_packages }}/apt.yml"
+
+# The id of the password saved in the secret manager.
+root_password_id: "{{ password_id }}"
+
+# The password of the root user used in VM.
+ansible_password: "{{ lookup('pipe', 'secret-tool lookup password ' + root_password_id) }}"
+
+# The sudo password.
+ansible_become_password: "{{ ansible_password }}"

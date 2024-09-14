@@ -1,24 +1,28 @@
 ---
-# The name of the root user used in VM.
-ansible_user: "usr_ansible"
-
-# The id of the password saved in the secret manager.
-root_password_id: "{{ password_id }}"
-
-# The password of the root user used in VM.
-ansible_password: "{{ lookup('pipe', 'secret-tool lookup password ' + root_password_id) }}"
-
 docker_path: "/opt/docker"
 certificates_dest_path: "{{ docker_path }}/certificates"
 
 certificates_src_path: "/opt/certificates"
-cert_root_ca_src_path: "{{ certificates_src_path }}/certificate.authority"
-cert_loadbalancer_src_path: "{{ certificates_src_path }}/loadbalancer.lan.homelab"
-cert_kvm_src_path: "{{ certificates_src_path }}/kvm.lan.homelab"
+cert_root_ca_src_path: "{{ certificates_src_path }}/ca.lan.homelab"
+cert_loadbalancer_src_path: "{{ certificates_src_path }}/wildcard.lan.homelab"
+# cert_kvm_src_path: "{{ certificates_src_path }}/kvm.lan.homelab"
 
 certificates:
-  - "{{ cert_root_ca_src_path }}/certificate.authority.crt"
-  - "{{ cert_loadbalancer_src_path }}/loadbalancer.lan.homelab.crt"
-  - "{{ cert_loadbalancer_src_path }}/loadbalancer.lan.homelab.key"
-  - "{{ cert_kvm_src_path }}/kvm.lan.homelab.crt"
-  - "{{ cert_kvm_src_path }}/kvm.lan.homelab.key"
+  - "{{ cert_root_ca_src_path }}/ca.lan.homelab.crt"
+  - "{{ cert_loadbalancer_src_path }}/wildcard.lan.homelab.crt"
+  - "{{ cert_loadbalancer_src_path }}/wildcard.lan.homelab.key"
+  # - "{{ cert_kvm_src_path }}/kvm.lan.homelab.crt"
+  # - "{{ cert_kvm_src_path }}/kvm.lan.homelab.key"
+
+networks:
+  - { name: "reverse-proxy", driver: "bridge" }
+
+# vgs:
+#   - name: "ubuntu_vg"
+#     disks:
+#       - "/dev/sda3"
+#       - "/dev/sdb1"
+#     lvm:
+#       - { name: "root_lvm", size: "12G", filesystem_type: "ext4" }
+#       - { name: "var_lvm", size: "12G", filesystem_type: "ext4" }
+#       - { name: "home_lvm", size: "+100%FREE", filesystem_type: "ext4" }

@@ -1,9 +1,11 @@
 ---
-# - name: "Changing the hostname"
-#   ansible.builtin.import_tasks: "roles/common/tasks/debian/os/hostname.yml"
+- name: "Ensure the fingerprint of the VM is removed from the known_hosts file"
+  ansible.builtin.include_tasks: "{{ path_debian_known_hosts_remove }}"
+  vars:
+    host: { name: "{{ ansible_host }}", state: "absent" }
 
-# - name: "Installing required packages"
-#   ansible.builtin.import_tasks: "installing-packages.yml"
-
-# - name: "Setting up the load balancer"
-#   ansible.builtin.import_tasks: "setup-app.yml"
+- name: "Ensure the local signed key files of the VM are removed from the SSH Signer Host"
+  delegate_to: "{{ groups['ssh_signer'] | first }}"
+  ansible.builtin.file:
+    path: "/tmp/{{ inventory_hostname }}"
+    state: "absent"

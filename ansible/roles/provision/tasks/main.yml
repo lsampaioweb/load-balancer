@@ -1,12 +1,19 @@
 ---
-- name: "Changing the hostname"
-  ansible.builtin.import_tasks: "roles/common/tasks/debian/os/hostname.yml"
+- name: "Setting up the disks"
+  ansible.builtin.include_tasks: "roles/common/tasks/debian/os/local-storage.yml"
+  when: vgs is defined
 
-- name: "Installing required packages"
-  ansible.builtin.import_tasks: "installing-packages.yml"
+- name: "Signing the Host OpenSSH keypair with the CA key"
+  ansible.builtin.import_tasks: "roles/common/tasks/debian/os/sign-ssh-keypair.yml"
+
+# - name: "Installing required packages"
+#   ansible.builtin.import_tasks: "installing-packages.yml"
 
 - name: "Setting up the load balancer"
   ansible.builtin.import_tasks: "setup-app.yml"
+
+- name: "Removing unnecessary packages"
+  ansible.builtin.import_tasks: "removing-packages.yml"
 
 - name: "Checking if a reboot is required"
   ansible.builtin.import_tasks: "roles/common/tasks/debian/os/reboot-if-required.yml"
