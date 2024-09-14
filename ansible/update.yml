@@ -1,0 +1,7 @@
+---
+- name: "Updating the virtual machine"
+  hosts: "all"
+  become: true
+
+  roles:
+    - "update"
