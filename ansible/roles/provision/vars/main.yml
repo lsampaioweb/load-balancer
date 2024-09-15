@@ -1,6 +1,7 @@
 ---
-docker_path: "/opt/docker"
-certificates_dest_path: "{{ docker_path }}/certificates"
+docker_base_path: "/opt/docker"
+app_path: "{{ docker_base_path }}/traefik"
+certificates_dest_path: "{{ app_path }}/certificates"
 
 certificates_src_path: "/opt/certificates"
 cert_root_ca_src_path: "{{ certificates_src_path }}/ca.lan.homelab"

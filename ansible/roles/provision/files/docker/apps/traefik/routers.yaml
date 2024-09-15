@@ -8,8 +8,8 @@ http:
       # Use specific TLS options for this router
       tls:
         options: "tls-loadbalancer"
-      # Routing rule based on the host
-      rule: "Host(`loadbalancer.lan.homelab`, `loadbalancer-01.lan.homelab`)"
+      # Routing rule based on the host, use '||' to match multiple hosts
+      rule: "Host(`edge-loadbalancer.lan.homelab`) || Host(`edge-loadbalancer-01.lan.homelab`)"
       # rule: "Host(`loadbalancer.lan.homelab`)"
       # Apply multiple middlewares to the router
       middlewares:
