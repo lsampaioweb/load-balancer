@@ -1,0 +1,7 @@
+---
+- name: "Preparing the virtual machine with some settings"
+  hosts: "target"
+  become: true
+
+  roles:
+    - "setup_vm"

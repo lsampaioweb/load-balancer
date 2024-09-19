@@ -1,0 +1,28 @@
+# HTTP transport settings
+http:
+  serversTransports:
+    # Define a transport configuration for TLS connections to Vault
+    tls-pve-01:
+      # Enable or disable verification of server certificates
+      # Default is false, meaning server certificates are verified
+      insecureSkipVerify: false
+
+      # # Set the server name for SNI (Server Name Indication)
+      serverName: "edge-pve-01.lan.homelab"
+
+      # Path to the root CA certificate used to verify the server's certificate
+      rootCAs:
+        - "/etc/traefik/certificates/ca.lan.homelab.crt"
+
+    # Define a transport configuration for TLS connections to Vault
+    tls-pve-02:
+      # Enable or disable verification of server certificates
+      # Default is false, meaning server certificates are verified
+      insecureSkipVerify: false
+
+      # # Set the server name for SNI (Server Name Indication)
+      serverName: "edge-pve-02.lan.homelab"
+
+      # Path to the root CA certificate used to verify the server's certificate
+      rootCAs:
+        - "/etc/traefik/certificates/ca.lan.homelab.crt"

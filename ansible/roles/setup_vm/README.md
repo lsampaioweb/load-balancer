@@ -1,4 +1,4 @@
-# Setup Ubuntu Server 22.04
+# Setup Ubuntu Server 24.04
 
 Run the command in the terminal:
 ```bash

@@ -3,7 +3,6 @@
   ansible.builtin.file:
     path: "{{ docker_base_path }}"
     state: "directory"
-    # group: "docker" # Set the group to 'docker' so that docker-related tasks can access it.
     mode: "0755" # Allow user, group, and others to access the directory.
 
 - name: "Copying the application's file to the target at: '{{ app_path }}'"
@@ -30,5 +29,5 @@
   community.docker.docker_compose_v2:
     project_name: "loadbalancer"
     project_src: "{{ app_path }}"
-    state: "present"
-    # state: "restarted"
+    # state: "present"
+    state: "restarted"

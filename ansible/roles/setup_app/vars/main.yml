@@ -6,24 +6,11 @@ certificates_dest_path: "{{ app_path }}/certificates"
 certificates_src_path: "/opt/certificates"
 cert_root_ca_src_path: "{{ certificates_src_path }}/ca.lan.homelab"
 cert_loadbalancer_src_path: "{{ certificates_src_path }}/wildcard.lan.homelab"
-# cert_kvm_src_path: "{{ certificates_src_path }}/kvm.lan.homelab"
 
 certificates:
   - "{{ cert_root_ca_src_path }}/ca.lan.homelab.crt"
   - "{{ cert_loadbalancer_src_path }}/wildcard.lan.homelab.crt"
   - "{{ cert_loadbalancer_src_path }}/wildcard.lan.homelab.key"
-  # - "{{ cert_kvm_src_path }}/kvm.lan.homelab.crt"
-  # - "{{ cert_kvm_src_path }}/kvm.lan.homelab.key"
 
 networks:
   - { name: "reverse-proxy", driver: "bridge" }
-
-# vgs:
-#   - name: "ubuntu_vg"
-#     disks:
-#       - "/dev/sda3"
-#       - "/dev/sdb1"
-#     lvm:
-#       - { name: "root_lvm", size: "12G", filesystem_type: "ext4" }
-#       - { name: "var_lvm", size: "12G", filesystem_type: "ext4" }
-#       - { name: "home_lvm", size: "+100%FREE", filesystem_type: "ext4" }

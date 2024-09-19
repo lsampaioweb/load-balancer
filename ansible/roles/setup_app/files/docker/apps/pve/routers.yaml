@@ -1,0 +1,50 @@
+http:
+  routers:
+    secure-pve:
+      # Defines the entry point for HTTPS traffic (TLS).
+      entryPoints:
+        - "websecure"
+      # Directs traffic to the "pve" service, which includes both pve-01 and pve-02 nodes.
+      service: "pve"
+      # Routing rule based on the host header. Traefik will route requests to this router if the host matches "edge-pve.lan.homelab".
+      rule: "Host(`edge-pve.lan.homelab`)"
+
+  services:
+    pve:
+      weighted:
+        # Sticky sessions based on this cookie. Helps to ensure that users remain connected to the same node.
+        sticky:
+          cookie:
+            # Sticky session cookie name for the entire "pve" service.
+            name: "pve_sticky_cookie"
+            # Ensures the cookie is sent only over HTTPS.
+            secure: true
+            # Prevents client-side scripts from accessing the cookie for security reasons.
+            httpOnly: true
+
+        # Distributes traffic evenly between pve-01 and pve-02.
+        services:
+          - name: "pve-01"
+            weight: 1
+          - name: "pve-02"
+            weight: 1
+
+    pve-01:
+      loadBalancer:
+        # Specifies which TLS transport configuration to use for connections to pve-01.
+        # This references the "tls-pve-01" configuration from the "serversTransports.yml" file.
+        serversTransport: "tls-pve-01@file"
+
+        # Backend URL for the pve-01 node.
+        servers:
+          - url: "https://edge-pve-01.lan.homelab:8006"
+
+    pve-02:
+      loadBalancer:
+        # Specifies which TLS transport configuration to use for connections to pve-02.
+        # This references the "tls-pve-02" configuration from the "serversTransports.yml" file.
+        serversTransport: "tls-pve-02@file"
+
+        # Backend URL for the pve-02 node.
+        servers:
+          - url: "https://edge-pve-02.lan.homelab:8006"

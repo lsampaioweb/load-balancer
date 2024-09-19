@@ -1,0 +1,7 @@
+---
+- name: "Setting up the Application"
+  hosts: "target"
+  become: true
+
+  roles:
+    - "setup_app"
