@@ -15,6 +15,13 @@ vm_instances = {
     startup     = "order=11"
     description = "Traefik as our load balancer."
 
+    networks = {
+      "01" = {
+        bridge  = "vmbr103"
+        macaddr = "BC:24:11:82:90:74"
+      }
+    }
+
     disks = {
       scsi = {
         # disk0 (required)
@@ -29,11 +36,5 @@ vm_instances = {
       }
     }
 
-    networks = {
-      "01" = {
-        bridge  = "vmbr103"
-        macaddr = "BC:24:11:82:90:74"
-      }
-    }
   }
 }
