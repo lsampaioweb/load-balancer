@@ -29,6 +29,18 @@ This repository contains a set of Ansible playbooks to manage the lifecycle of a
   ansible-playbook update.yml
   ```
 
+- **Backup the VM**:
+  To create a backup of the server’s files, directories, databases, or system configurations, use the following command:
+  ```bash
+  ansible-playbook backup.yml
+  ```
+
+- **Restore the VM**:
+  To restore the server’s files, directories, databases, or system configurations from the most recent backup, use the following command:
+  ```bash
+  ansible-playbook restore.yml
+  ```
+
 - **Destroy the VM**:
   Typically, this playbook should not be called manually, as Terraform handles VM destruction by calling this playbook when necessary:
   ```bash
