@@ -29,5 +29,5 @@
   community.docker.docker_compose_v2:
     project_name: "loadbalancer"
     project_src: "{{ app_path }}"
-    # state: "present"
-    state: "restarted"
+    # This will apply changes without restarting the containers unnecessarily.
+    state: "present"

@@ -1,0 +1,1 @@
+To trigger Traefik to reload all application configuration files, simply save (or touch) this file. No container restart is required.
