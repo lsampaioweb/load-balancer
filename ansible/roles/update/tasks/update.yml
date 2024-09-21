@@ -4,3 +4,4 @@
   vars:
     update_cache: true
     upgrade: "safe"
+    autoremove: true
