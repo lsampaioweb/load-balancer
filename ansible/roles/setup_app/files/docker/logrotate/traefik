@@ -1,0 +1,29 @@
+# Path to the log files to rotate
+/opt/docker/traefik/log/*.log.gz {
+  # Rotate logs daily
+  daily
+
+  # Do not raise an error if the log file is missing
+  missingok
+
+  # Do not rotate empty log files
+  notifempty
+
+  # Do not keep old log files (0 means no backup is kept)
+  rotate 0
+
+  # Set file permissions for new log files: 0644 (owner read/write, group and others read)
+  # Owned by root user and root group
+  create 0644 root root
+
+  # Do not compress the rotated logs
+  nocompress
+
+  # Execute the post-rotation script only once, even if multiple logs are rotated
+  sharedscripts
+
+  # Post-rotation script: find and delete log files older than 1 day
+  postrotate
+    find /opt/docker/traefik/log/ -name "*.log.gz" -mtime +1 -exec rm {} \;
+  endscript
+}

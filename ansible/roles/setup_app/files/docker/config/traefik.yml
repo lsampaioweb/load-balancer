@@ -18,8 +18,8 @@ log:
   # Sets maximum log file size in megabytes before rotation.
   maxSize: 10
 
-  # Keeps up to 100 old log files as backups.
-  maxBackups: 100
+  # Keeps up to 20 old log files as backups.
+  maxBackups: 20
 
   # Deletes log files older than 2 days.
   maxAge: 2
