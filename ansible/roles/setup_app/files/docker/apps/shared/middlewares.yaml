@@ -63,9 +63,3 @@ http:
 
         # Controls how much referrer information is included with requests
         referrerPolicy: "strict-origin-when-cross-origin"
-
-        # Cross-Origin Opener Policy to protect against cross-origin leaks
-        # crossOriginOpenerPolicy: "same-origin"
-
-        # Cross-Origin Resource Policy to restrict resource loading from other origins
-        # crossOriginResourcePolicy: "same-origin"

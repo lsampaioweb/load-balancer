@@ -4,10 +4,23 @@ http:
       # Defines the entry point for HTTPS traffic (TLS).
       entryPoints:
         - "websecure"
-      # Directs traffic to the "pve" service, which includes both pve-01 and pve-02 nodes.
-      service: "pve"
+
+      # Use specific TLS options for this router.
+      tls:
+        options: "default"
+
       # Routing rule based on the host header. Traefik will route requests to this router if the host matches "edge-pve.lan.homelab".
       rule: "Host(`edge-pve.lan.homelab`)"
+
+      # Apply multiple middlewares to the router.
+      middlewares:
+        - "headers-rate-limit-loadbalancer" # Apply rate limiting.
+        # - "headers-inFlightReq" # Limit concurrent in-flight requests.
+        # - "headers-default" # Set default headers.
+        # - "headers-security" # Apply security headers.
+
+      # Directs traffic to the "pve" service, which includes both pve-01 and pve-02 nodes.
+      service: "pve@file"
 
   services:
     pve:
@@ -24,27 +37,19 @@ http:
 
         # Distributes traffic evenly between pve-01 and pve-02.
         services:
-          - name: "pve-01"
+          - name: "pve-01@file"
             weight: 1
-          - name: "pve-02"
+          - name: "pve-02@file"
             weight: 1
 
     pve-01:
       loadBalancer:
-        # Specifies which TLS transport configuration to use for connections to pve-01.
-        # This references the "tls-pve-01" configuration from the "serversTransports.yml" file.
-        serversTransport: "tls-pve-01@file"
-
         # Backend URL for the pve-01 node.
         servers:
           - url: "https://edge-pve-01.lan.homelab:8006"
 
     pve-02:
       loadBalancer:
-        # Specifies which TLS transport configuration to use for connections to pve-02.
-        # This references the "tls-pve-02" configuration from the "serversTransports.yml" file.
-        serversTransport: "tls-pve-02@file"
-
         # Backend URL for the pve-02 node.
         servers:
           - url: "https://edge-pve-02.lan.homelab:8006"

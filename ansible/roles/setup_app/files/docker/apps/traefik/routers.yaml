@@ -5,17 +5,21 @@ http:
       # Define the entry points (in this case, HTTPS)
       entryPoints:
         - "websecure"
+
       # Use specific TLS options for this router
       tls:
         options: "tls-loadbalancer"
+
       # Routing rule based on the host, use '||' to match multiple hosts
       rule: "Host(`edge-loadbalancer.lan.homelab`) || Host(`edge-loadbalancer-01.lan.homelab`)"
       # rule: "Host(`loadbalancer.lan.homelab`)"
+
       # Apply multiple middlewares to the router
       middlewares:
         - "headers-rate-limit-loadbalancer" # Apply rate limiting
         - "headers-inFlightReq" # Limit concurrent in-flight requests
         - "headers-default" # Set default headers
         - "headers-security" # Apply security headers
+
       # Define the service to which the router should forward traffic
       service: "api@internal"
