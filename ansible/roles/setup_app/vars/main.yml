@@ -1,16 +1,28 @@
 ---
+# Base directory for Docker-related files on the target host
 docker_base_path: "/opt/docker"
+
+# Path to the application directory, derived from the base Docker path
 app_path: "{{ docker_base_path }}/traefik"
+
+# Destination path where SSL certificates will be copied on the target host
 certificates_dest_path: "{{ app_path }}/certificates"
 
+# Base source directory where certificates are stored on the control node
 certificates_src_path: "/opt/certificates"
+
+# Path to the root CA certificate file on the control node
 cert_root_ca_src_path: "{{ certificates_src_path }}/ca.lan.homelab"
+
+# Path to the wildcard certificate files for the load balancer on the control node
 cert_loadbalancer_src_path: "{{ certificates_src_path }}/wildcard.lan.homelab"
 
+# List of certificates to copy to the target host (includes CA and wildcard certs)
 certificates:
   - "{{ cert_root_ca_src_path }}/ca.lan.homelab.crt"
   - "{{ cert_loadbalancer_src_path }}/wildcard.lan.homelab.crt"
   - "{{ cert_loadbalancer_src_path }}/wildcard.lan.homelab.key"
 
+# Docker networks to create; currently includes the reverse-proxy network with the bridge driver
 networks:
   - { name: "reverse-proxy", driver: "bridge" }

@@ -16,14 +16,14 @@
     src: "{{ item }}"
     dest: "{{ certificates_dest_path }}"
     mode: "preserve"
-  loop: "{{ certificates }}"
+  loop: "{{ certificates | default([]) }}"
 
 - name: "Creating external Docker network for reverse proxy"
   community.docker.docker_network:
     name: "{{ item.name }}"
     driver: "{{ item.driver }}"
     state: "{{ item.state | default('present', true) }}"
-  loop: "{{ networks }}"
+  loop: "{{ networks | default([]) }}"
 
 - name: "Creating and starting services (docker-compose up)"
   community.docker.docker_compose_v2:
