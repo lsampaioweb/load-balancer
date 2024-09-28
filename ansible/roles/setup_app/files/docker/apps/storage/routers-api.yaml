@@ -1,0 +1,55 @@
+http:
+  routers:
+    storage-api:
+      # Defines the entry point for HTTPS traffic (TLS).
+      entryPoints:
+        - "websecure"
+
+      # Use specific TLS options for this router.
+      tls:
+        options: "default"
+
+      # Routing rule based on the host header.
+      rule: "Host(`api.edge-storage.lan.homelab`)"
+
+      # Apply multiple middlewares to the router.
+      middlewares:
+        - "headers-rate-limit-loadbalancer" # Apply rate limiting.
+        # - "headers-inFlightReq" # Limit concurrent in-flight requests.
+        # - "headers-default" # Set default headers.
+        # - "headers-security" # Apply security headers.
+
+      # Directs traffic to the service.
+      service: "storage-api@file"
+
+  services:
+    storage-api:
+      weighted:
+        # Sticky sessions based on this cookie. Helps to ensure that users remain connected to the same node.
+        sticky:
+          cookie:
+            # Sticky session cookie name for the entire "storage" service.
+            name: "storage_api_sticky_cookie"
+            # Ensures the cookie is sent only over HTTPS.
+            secure: true
+            # Prevents client-side scripts from accessing the cookie for security reasons.
+            httpOnly: true
+
+        # Distributes traffic evenly between storage-01 and storage-02.
+        services:
+          - name: "storage-api-01@file"
+            weight: 1
+          # - name: "storage-api-02@file"
+          #   weight: 1
+
+    storage-api-01:
+      loadBalancer:
+        # Backend URL for the storage-01 node.
+        servers:
+          - url: "https://api.edge-storage-01.lan.homelab:9000"
+
+    # storage-api-02:
+    #   loadBalancer:
+    #     # Backend URL for the storage-02 node.
+    #     servers:
+    #       - url: "https://api.edge-storage-02.lan.homelab:9000"

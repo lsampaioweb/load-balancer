@@ -1,1 +1,3 @@
 To trigger Traefik to reload all application configuration files, simply save (or touch) this file. No container restart is required.
+
+01 - Add the config for the Storage (Minio).
