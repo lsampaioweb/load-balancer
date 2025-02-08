@@ -27,6 +27,7 @@ The playbook performs the following tasks:
 ### 4. Removing Unnecessary Packages
 - Cleans up the system by uninstalling packages that are not needed, reducing the system’s footprint and potential attack surface.
 
-## Author
+#
+### Created by:
 
-**Luciano Sampaio**
+1. Luciano Sampaio.

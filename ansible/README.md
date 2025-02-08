@@ -47,6 +47,7 @@ This repository contains a set of Ansible playbooks to manage the lifecycle of a
   ansible-playbook destroy.yml
   ```
 
-## Author
+#
+### Created by:
 
-**Luciano Sampaio**
+1. Luciano Sampaio.

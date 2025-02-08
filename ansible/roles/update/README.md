@@ -22,6 +22,7 @@ ansible-playbook update.yml
 
 4. **Reboot if Required**: (Optional) If any kernel or critical system packages were updated, the playbook will prompt for a reboot to apply the changes.
 
-## Author
+#
+### Created by:
 
-**Luciano Sampaio**
+1. Luciano Sampaio.

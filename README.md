@@ -1,46 +1,64 @@
-# load-balancer
-Project that will create the VMs that will work as the Load Balancer of the HomeLab.
+# Load Balancer for HomeLab
 
-## Getting Started
+This project automates the creation and configuration of a **Load Balancer** VM for the HomeLab. The load balancer runs **Traefik** as a **Docker container**.
 
-### Cloning the Repository
+#
+### Overview
 
-This repository includes other repositories as submodules. To clone this repository along with its submodules, run the following command:
+The setup process follows two approaches:
 
-```bash
-git clone --recurse-submodules https://github.com/lsampaioweb/load-balancer.git
-```
+1. **Automated Approach (Recommended)**: If your Proxmox cluster is operational, use Terraform scripts to create and configure the VM automatically.
+2. **Manual Approach**: If Proxmox is not ready, create the VM manually using the Proxmox GUI and then run the Ansible playbooks to configure it.
 
-If you have already cloned the repository without submodules, initialize and update the submodules with these commands:
+#
+### Installation and Setup
 
-```bash
-git submodule init
+Follow the steps below to prepare **your machine** and clone the repository.
 
-git pull --recurse-submodules
-```
+### 1. Prepare the Environment
 
-Or use the single-line command to initialize and update all submodules:
+Open a terminal and execute the following steps:
 
-```bash
-git submodule update --init --recursive
-```
+1. Update package lists and upgrade installed packages
+    ```bash
+    sudo apt update && sudo apt upgrade -y
+    ```
 
-### Running Terraform Scripts
+1. Install Git
+    ```bash
+    sudo apt install -y git
+    ```
 
-To set up infrastructure, refer to the Terraform documentation:
+1. Create a Git directory and navigate to it
+    ```bash
+    mkdir -p ~/git && cd ~/git
+    ```
 
-- [Terraform](terraform/README.md "Terraform")
+1. Clone the repository and initialize submodules
+    ```bash
+    git clone --recurse-submodules https://github.com/lsampaioweb/load-balancer.git
+    ```
 
-### Running Ansible Scripts
+1. If the repository is already cloned, update submodules
+    ```bash
+    cd jump-server
+    git submodule update --init --recursive
+    ```
 
-To configure the VMs and manage backups, refer to the Ansible documentation:
+#
+### 2. Deploy the Jump Server
 
-- [Ansible](ansible/README.md "Ansible")
+Choose one of the following methods:
 
-## License
+- **[Terraform](terraform/README.md "Terraform")** (Recommended) – If Proxmox is ready, use Terraform to create and configure the VM automatically.
+- **[Ansible](ansible/README.md "Ansible")** – If Proxmox is not ready, manually create a VM and then run the Ansible playbooks to configure it.
 
-This project is licensed under the [MIT License](LICENSE "MIT License").
+#
+### License:
 
-## Created by
+[MIT](LICENSE "MIT License")
 
-- Luciano Sampaio
+#
+### Created by:
+
+1. Luciano Sampaio.

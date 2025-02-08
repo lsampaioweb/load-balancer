@@ -18,6 +18,7 @@ ansible-playbook destroy.yml
 2. **Remove Local Signed Key Files**
    - Deletes the local signed SSH key files related to the server on the SSH Signer Host, ensuring that there are no leftover credentials or references.
 
-## Author
+#
+### Created by:
 
-**Luciano Sampaio**
+1. Luciano Sampaio.

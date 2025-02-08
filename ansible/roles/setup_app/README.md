@@ -23,6 +23,7 @@ The playbook performs the following tasks:
 ### 3. Start the Container
 - Ensures that the application container(s) are started using Docker Compose commands, making the application live and ready to serve traffic.
 
-## Author
+#
+### Created by:
 
-**Luciano Sampaio**
+1. Luciano Sampaio.
