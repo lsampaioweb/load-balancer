@@ -16,6 +16,8 @@ terraform {
       version = "2.5.2"
     }
   }
+  # The content will come from tf.sh.
+  backend "local" {}
 }
 
 provider "proxmox" {
