@@ -109,4 +109,4 @@ serversTransport:
 
   # Specifies the root CA certificate to use for HTTPS verification.
   rootCAs:
-    - "/etc/traefik/certificates/ca.lan.homelab.crt"
+    - "/etc/traefik/certificates/root-ca.lan.home.crt"

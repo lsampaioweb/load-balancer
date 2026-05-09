@@ -15,4 +15,4 @@ http:
 
       # Path to the root CA certificate used to verify the server's certificate
       rootCAs:
-        - "/etc/traefik/certificates/ca.lan.homelab.crt"
+        - "/etc/traefik/certificates/root-ca.lan.home.crt"

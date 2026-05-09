@@ -19,7 +19,7 @@ cert_loadbalancer_src_path: "{{ certificates_src_path }}/wildcard.lan.homelab"
 
 # List of certificates to copy to the target host (includes CA and wildcard certs)
 certificates:
-  - "{{ cert_root_ca_src_path }}/ca.lan.homelab.crt"
+  - "{{ cert_root_ca_src_path }}/root-ca.lan.home.crt"
   - "{{ cert_loadbalancer_src_path }}/wildcard.lan.homelab.crt"
   - "{{ cert_loadbalancer_src_path }}/wildcard.lan.homelab.key"
 
