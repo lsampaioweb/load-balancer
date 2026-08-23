@@ -14,3 +14,6 @@
 
 # This project has a dynamic hosts file, so it keeps changing.
 hosts
+
+# The AI custom files should be ignored.
+.github/
