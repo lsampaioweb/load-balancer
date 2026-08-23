@@ -1,4 +1,6 @@
 galaxy_info:
+  role_name: update
+  namespace: lsampaioweb
   author: Luciano Sampaio
   description: Updating the virtual machine.
 

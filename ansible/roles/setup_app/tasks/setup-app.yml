@@ -1,5 +1,5 @@
 ---
-- name: "Ensure the '{{ docker_base_path }}' directory exists"
+- name: "Ensuring the '{{ docker_base_path }}' directory exists"
   ansible.builtin.file:
     path: "{{ docker_base_path }}"
     state: "directory"

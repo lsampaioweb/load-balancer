@@ -1,4 +1,6 @@
 galaxy_info:
+  role_name: destroy
+  namespace: lsampaioweb
   author: Luciano Sampaio
   description: Setup Ubuntu VM with default settings.
   company: thecodemaster.net

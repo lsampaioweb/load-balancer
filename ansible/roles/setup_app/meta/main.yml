@@ -1,4 +1,6 @@
 galaxy_info:
+  role_name: setup_app
+  namespace: lsampaioweb
   author: Luciano Sampaio
   description: Setup Ubuntu VM with default settings.
   company: thecodemaster.net
